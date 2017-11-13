@@ -12,10 +12,6 @@ var express         = require('express'),
 
 app.listen(params.port, '0.0.0.0');
 
-console.log('');
-console.log(' ... server online on '.green + params.port + ' ... '.green);
-
-
 app.use(morgan('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
@@ -23,7 +19,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.static(path.join(__dirname) + '/webapp'));
 
 app.get('/', function(req, res) {
-    res.send(' test ');
+    res.render('index.html');
 });
 
 
