@@ -20,8 +20,7 @@ module.exports = {
     insertUsers     : insertUsers,
     getUsers        : getUsers,
 
-    getUserByUsername   : getUserByUsername,
-    getUserById         : getUserById
+    getUser         : getUser
 };
 
 function insertUsers(users, callback){
@@ -32,10 +31,6 @@ function getUsers(){
     return User.find({}).exec();
 }
 
-function getUserByUsername(uname){
-    return User.findOne({username:uname}).exec();
-}
-
-function getUserById(id, callback){
-    return User.findById(id, callback).execAsync();
+function getUser(id){
+    return User.findOne({id:id}).exec();
 }

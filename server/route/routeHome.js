@@ -28,4 +28,14 @@ router.get('/', function(req, res) {
         })
 });
 
+router.get('/:id', function(req, res) {
+    userProvider.getUser(req.params.id)
+        .then(function(doc){
+            res.json(doc);
+        })
+        .catch(function(err){
+            res.json(err);
+        })
+});
+
 module.exports = router;

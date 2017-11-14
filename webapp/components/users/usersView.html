@@ -1,5 +1,5 @@
 <h1>List of profiles</h1>
 
 <ul>
-    <li ng-repeat="user in vmUsers.users">{{user.firstName}} {{user.surname}}</li>
+    <li ng-repeat="user in vmUsers.users"><a ui-sref="details({userId: user.id})">{{user.firstName}} {{user.surname}}</a></li>
 </ul>

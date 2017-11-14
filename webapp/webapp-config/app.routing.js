@@ -14,6 +14,13 @@
                         templateUrl:'components/users/usersView.html',
                         controller: 'usersController',
                         controllerAs: 'vmUsers'
+                    })
+
+                    .state('details', {
+                        url:'/:userId',
+                        templateUrl:'components/users/userDetails/userDetailsView.html',
+                        controller: 'userDetailsController',
+                        controllerAs: 'vmDetails'
                     });
 
                 $urlRouterProvider.otherwise('/');

@@ -10,11 +10,16 @@
     function userService( restResourceService ){
 
         return {
-            getUsers    : getUsers
+            getUsers    : getUsers,
+            getOne      : getOne
         };
 
         function getUsers() {
             return restResourceService.resource("users").query();
+        }
+
+        function getOne(id) {
+            return restResourceService.resource("users/" + id).queryOne();
         }
 
     }

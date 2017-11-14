@@ -15,10 +15,14 @@
         };
 
         function resource(res){
-            return $resource(mainConfig.appBaseURL + res, {
+            return $resource(mainConfig.appBaseURL + res+'/:id', { id: '@_id' }, {
                 query: {
                     method: 'GET',
                     isArray: true
+                },
+                queryOne: {
+                    method: 'GET',
+                    isArray: false
                 }
             });
         }
