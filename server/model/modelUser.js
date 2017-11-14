@@ -13,8 +13,17 @@ var schemaUser = mongoose.Schema({
     gender      : { type: String, required: true, trim: true },
 
     friends     : [{ type : Number, default: null }]
+}, { toJSON: { virtuals: true } });
+schemaUser.virtual('populatedFriends', {
+    ref: 'user', // The model to use
+    localField: 'friends', // Find people where `localField`
+    foreignField: 'id', // is equal to `foreignField`
+    // If `justOne` is true, 'members' will be a single doc as opposed to
+    // an array. `justOne` is false by default.
+    justOne: false
 });
 var User = mongoose.model('user', schemaUser);
+
 
 module.exports = {
     insertUsers     : insertUsers,
@@ -32,5 +41,6 @@ function getUsers(){
 }
 
 function getUser(id){
-    return User.findOne({id:id}).exec();
+    return User.findOne({id:id})
+        .populate({path: 'populatedFriends', select: 'firstName surname'}).exec();
 }
