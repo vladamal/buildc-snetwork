@@ -1,8 +1,16 @@
 
     <h1>{{vmDetails.user.firstName}} {{vmDetails.user.surname}}, {{vmDetails.user.age}}</h1>
 
+    <h4>Direct Friends</h4>
     <ul>
         <li ng-repeat="friend in vmDetails.user.populatedFriends">
             {{friend.firstName}} {{friend.surname}}
+        </li>
+    </ul>
+
+    <h4>Friends of Friends</h4>
+    <ul>
+        <li ng-repeat="friendo in vmDetails.friendsOfFriends">
+            {{friendo.firstName}} {{friendo.surname}}
         </li>
     </ul>

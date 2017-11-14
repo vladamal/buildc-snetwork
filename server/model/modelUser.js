@@ -14,22 +14,22 @@ var schemaUser = mongoose.Schema({
 
     friends     : [{ type : Number, default: null }]
 }, { toJSON: { virtuals: true } });
+
 schemaUser.virtual('populatedFriends', {
-    ref: 'user', // The model to use
-    localField: 'friends', // Find people where `localField`
-    foreignField: 'id', // is equal to `foreignField`
-    // If `justOne` is true, 'members' will be a single doc as opposed to
-    // an array. `justOne` is false by default.
+    ref: 'user',
+    localField: 'friends',
+    foreignField: 'id',
     justOne: false
 });
+
 var User = mongoose.model('user', schemaUser);
 
 
 module.exports = {
-    insertUsers     : insertUsers,
-    getUsers        : getUsers,
-
-    getUser         : getUser
+    insertUsers         : insertUsers,
+    getUsers            : getUsers,
+    getUser             : getUser,
+    getFriendsOfFriends : getFriendsOfFriends
 };
 
 function insertUsers(users, callback){
@@ -42,5 +42,10 @@ function getUsers(){
 
 function getUser(id){
     return User.findOne({id:id})
-        .populate({path: 'populatedFriends', select: 'firstName surname'}).exec();
+        .populate({path: 'populatedFriends', select: 'firstName surname friends'})
+        .exec();
+}
+
+function getFriendsOfFriends(ids){
+    return User.find({id: { "$in": ids}}).exec();
 }

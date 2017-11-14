@@ -38,4 +38,15 @@ router.get('/:id', function(req, res) {
         })
 });
 
+router.get('/fof/:fof', function(req, res) {
+    var fofIds = req.params.fof.split(',');
+    userProvider.getFriendsOfFriends(fofIds)
+        .then(function(docs){
+            res.json(docs);
+        })
+        .catch(function(err){
+            res.json(err);
+        })
+});
+
 module.exports = router;

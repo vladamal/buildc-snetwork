@@ -11,7 +11,8 @@
 
         return {
             getUsers    : getUsers,
-            getOne      : getOne
+            getOne      : getOne,
+            getFriendsOfFriends : getFriendsOfFriends
         };
 
         function getUsers() {
@@ -20,6 +21,10 @@
 
         function getOne(id) {
             return restResourceService.resource("users/" + id).queryOne();
+        }
+
+        function getFriendsOfFriends(friends) {
+            return restResourceService.resource("users/fof/" + friends).query();
         }
 
     }
