@@ -2,8 +2,6 @@
 var express     = require('express'),
     router      = express.Router(),
 
-    color       = require('colors'),
-
     data        = require('../../data.json'),
     userProvider= require('../model/modelUser');
 

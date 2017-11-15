@@ -34,24 +34,19 @@
             userService.getSuggestedFriends(vmDetails.user.friends).$promise
                 .then(function(data){
                     vmDetails.suggestedFriends = data;
-                    console.log(data);
                 });
         }
 
         function init() {
             userService.getOne($stateParams.userId).$promise
                 .then(function (data) {
-
                     vmDetails.user = data;
-
                     getFriendsOfFriends();
                     if (vmDetails.user.friends.length > 1) {
                         getSuggestedFriends();
                     }
                 });
-
         }
-
         init();
 
     }
