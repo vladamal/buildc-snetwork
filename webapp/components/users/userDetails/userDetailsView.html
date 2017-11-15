@@ -4,13 +4,20 @@
     <h4>Direct Friends</h4>
     <ul>
         <li ng-repeat="friend in vmDetails.user.populatedFriends">
-            {{friend.firstName}} {{friend.surname}}
+            {{friend.firstName}} {{friend.surname}}, {{friend.age}}
         </li>
     </ul>
 
     <h4>Friends of Friends</h4>
     <ul>
         <li ng-repeat="friendo in vmDetails.friendsOfFriends">
-            {{friendo.firstName}} {{friendo.surname}}
+            {{friendo.firstName}} {{friendo.surname}}, {{friendo.age}}
+        </li>
+    </ul>
+
+    <h4>Suggested Friends</h4>
+    <ul>
+        <li ng-repeat="suggestion in vmDetails.suggestedFriends">
+            {{suggestion.firstName}} {{suggestion.surname}}, {{suggestion.age}}
         </li>
     </ul>

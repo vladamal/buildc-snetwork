@@ -26,10 +26,11 @@ var User = mongoose.model('user', schemaUser);
 
 
 module.exports = {
-    insertUsers         : insertUsers,
-    getUsers            : getUsers,
-    getUser             : getUser,
-    getFriendsOfFriends : getFriendsOfFriends
+    insertUsers     : insertUsers,
+    getUsers        : getUsers,
+
+    getUser         : getUser,
+    getFriendsByIds : getFriendsByIds
 };
 
 function insertUsers(users, callback){
@@ -46,6 +47,6 @@ function getUser(id){
         .exec();
 }
 
-function getFriendsOfFriends(ids){
+function getFriendsByIds(ids){
     return User.find({id: { "$in": ids}}).exec();
 }

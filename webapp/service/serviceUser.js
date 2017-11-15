@@ -10,9 +10,10 @@
     function userService( restResourceService ){
 
         return {
-            getUsers    : getUsers,
-            getOne      : getOne,
-            getFriendsOfFriends : getFriendsOfFriends
+            getUsers            : getUsers,
+            getOne              : getOne,
+            getFriendsOfFriends : getFriendsOfFriends,
+            getSuggestedFriends : getSuggestedFriends
         };
 
         function getUsers() {
@@ -25,6 +26,10 @@
 
         function getFriendsOfFriends(friends) {
             return restResourceService.resource("users/fof/" + friends).query();
+        }
+
+        function getSuggestedFriends(ids) {
+            return restResourceService.resource("users/suggestions/" + ids).query();
         }
 
     }
