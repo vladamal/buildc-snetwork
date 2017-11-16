@@ -11,7 +11,7 @@
     <h4>Friends of Friends</h4>
     <ul>
         <li ng-repeat="friendo in vmDetails.friendsOfFriends">
-            {{friendo.firstName}} {{friendo.surname}}, {{friendo.age}}
+            {{friendo.firstName}} {{friendo.surname}}, {{friendo.age}} <i ng-if="friendo.age==null">(Age not available)</i>
         </li>
     </ul>
 

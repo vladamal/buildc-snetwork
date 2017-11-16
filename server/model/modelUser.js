@@ -1,9 +1,6 @@
 
 
-var mongoose = require('mongoose'),
-    Promise  = require('bluebird');
-
-Promise.promisifyAll(mongoose);
+var mongoose = require('mongoose');
 
 var schemaUser = mongoose.Schema({
     id          : { type: Number, required: true, unique: true, trim: true },
@@ -43,7 +40,7 @@ function getUsers(){
 
 function getUser(id){
     return User.findOne({id:id})
-        .populate({path: 'populatedFriends', select: 'firstName surname friends'})
+        .populate({path: 'populatedFriends', select: 'firstName surname friends age'})
         .exec();
 }
 
