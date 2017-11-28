@@ -1,5 +1,4 @@
 
-
 var mongoose = require('mongoose');
 
 var schemaUser = mongoose.Schema({
@@ -23,11 +22,12 @@ var User = mongoose.model('user', schemaUser);
 
 
 module.exports = {
-    insertUsers     : insertUsers,
-    getUsers        : getUsers,
+    insertUsers         : insertUsers,
+    getUsers            : getUsers,
 
-    getUser         : getUser,
-    getFriendsByIds : getFriendsByIds
+    getUser             : getUser,
+    getFriendsByIds     : getFriendsByIds,
+    getSuggestedFriends : getSuggestedFriends
 };
 
 function insertUsers(users, callback){
@@ -46,4 +46,20 @@ function getUser(id){
 
 function getFriendsByIds(ids){
     return User.find({id: { "$in": ids}}).exec();
+}
+
+function getSuggestedFriends(ids){
+    return User.aggregate([
+        { "$match": { "friends.1": { "$exists": true } } },
+        { "$redact": {
+            "$cond": [
+                { "$gte": [
+                    { "$size": { "$setIntersection": [ "$friends", ids ] } },
+                    2
+                ]},
+                "$$KEEP",
+                "$$PRUNE"
+            ]
+        }}
+    ]).exec();
 }
