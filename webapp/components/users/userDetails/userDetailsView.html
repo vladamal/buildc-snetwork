@@ -3,6 +3,7 @@
 
     <h4>Direct Friends</h4>
     <ul>
+        <li ng-hide="vmDetails.user.populatedFriends.length>0"><i>No friends</i></li>
         <li ng-repeat="friend in vmDetails.user.populatedFriends">
             {{friend.firstName}} {{friend.surname}}, {{friend.age}}
         </li>
@@ -10,6 +11,7 @@
 
     <h4>Friends of Friends</h4>
     <ul>
+        <li ng-hide="vmDetails.friendsOfFriends.length>0"><i>No friends of friends</i></li>
         <li ng-repeat="friendo in vmDetails.friendsOfFriends">
             {{friendo.firstName}} {{friendo.surname}}, {{friendo.age}} <i ng-if="friendo.age==null">(Age not available)</i>
         </li>
@@ -17,6 +19,7 @@
 
     <h4>Suggested Friends</h4>
     <ul>
+        <li ng-hide="vmDetails.suggestedFriends.length>0"><i>No suggestions</i></li>
         <li ng-repeat="suggestion in vmDetails.suggestedFriends">
             {{suggestion.firstName}} {{suggestion.surname}}, {{suggestion.age}}
         </li>
