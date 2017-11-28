@@ -6,7 +6,14 @@ var express     = require('express'),
     userProvider= require('../model/modelUser');
 
 
-router.post('/', function(req, res) {
+router.post('/',    postUsers);
+router.get('/',     getUsers);
+
+router.get('/:id',              getUser);
+router.get('/fof/:friends',     getFriendsOfFriends);
+router.get('/suggestions/:ids', getSuggestedFriends);
+
+function postUsers(req, res) {
     userProvider.insertUsers(data, function(err, docs){
         if (err) {
             res.json(err);
@@ -14,9 +21,8 @@ router.post('/', function(req, res) {
             res.json(docs.ops);
         }
     });
-});
-
-router.get('/', function(req, res) {
+}
+function getUsers(req, res) {
     userProvider.getUsers()
         .then(function(docs){
             res.json(docs);
@@ -24,9 +30,8 @@ router.get('/', function(req, res) {
         .catch(function(err){
             res.json(err);
         })
-});
-
-router.get('/:id', function(req, res) {
+}
+function getUser(req, res) {
     userProvider.getUser(req.params.id)
         .then(function(doc){
             res.json(doc);
@@ -34,10 +39,9 @@ router.get('/:id', function(req, res) {
         .catch(function(err){
             res.json(err);
         })
-});
-
-router.get('/fof/:fof', function(req, res) {
-    var fofIds = req.params.fof.split(',');
+}
+function getFriendsOfFriends(req, res) {
+    var fofIds = req.params.friends.split(',');
     userProvider.getFriendsByIds(fofIds)
         .then(function(docs){
             res.json(docs);
@@ -45,44 +49,21 @@ router.get('/fof/:fof', function(req, res) {
         .catch(function(err){
             res.json(err);
         })
-});
+}
+function getSuggestedFriends(req, res) {
 
-router.get('/suggestions/:ids', function(req, res) {
-    var relatedFriends = req.params.ids.split(','),
-        suggestedFriends = [];
+    var relatedFriends = req.params.ids.split(',');
 
-    userProvider.getUsers()
-        .then(function(docs){
-            for(var i=0; i<docs.length; i++) {
-                var match = 0;
-                for (var j = 0; j < docs[i].friends.length; j++) {
-                    for (var k = 0; k < relatedFriends.length; k++) {
-                        if (docs[i].friends[j] == relatedFriends[k]) {
-                            ++match;
-                            if(match>1){
-                                if(suggestedFriends.length>0){
-                                    for(var l=0; l<suggestedFriends.length; l++){
-                                        if(suggestedFriends[l].id === docs[i].id){
-                                            // Duplicate
-                                        }else{
-                                            suggestedFriends.push(docs[i]);
-                                            break;
-                                        }
-                                    }
-                                } else {
-                                    suggestedFriends.push(docs[i]);
-                                }
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            res.json(suggestedFriends);
+    for(var i=0; i<relatedFriends.length; i++)
+        relatedFriends[i] = +relatedFriends[i];
+
+    userProvider.getSuggestedFriends(relatedFriends)
+        .then(function(suggestions){
+            res.json(suggestions);
         })
         .catch(function(err){
             res.json(err);
         });
-});
+}
 
 module.exports = router;
