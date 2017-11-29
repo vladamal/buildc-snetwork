@@ -24,8 +24,8 @@
             return restResourceService.resource("users/" + id).queryOne();
         }
 
-        function getFriendsOfFriends(friends) {
-            return restResourceService.resource("users/fof/" + friends).query();
+        function getFriendsOfFriends(friends, notIn) {
+            return restResourceService.resource("users/fof/" + friends + '|' + notIn).query();
         }
 
         function getSuggestedFriends(ids) {

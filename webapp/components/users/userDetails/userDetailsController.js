@@ -19,41 +19,26 @@
             for (var i = 0; i < vmDetails.user.populatedFriends.length; i++) {
                 vmDetails.friendsOfFriends.push(vmDetails.user.populatedFriends[i].friends);
             }
-            userService.getFriendsOfFriends(vmDetails.friendsOfFriends).$promise
+            var notIn = vmDetails.user.friends;
+            notIn.push(vmDetails.user.id);
+
+            userService.getFriendsOfFriends(vmDetails.friendsOfFriends, notIn).$promise
                 .then(function(data){
-                    vmDetails.friendsOfFriends = angular.copy(data);
-
-                    for (var j = 0; j < vmDetails.friendsOfFriends.length; j++){
-
-                        // Remove selected user
-                        if(vmDetails.friendsOfFriends[j].id === vmDetails.user.id){
-                            vmDetails.friendsOfFriends.splice(j, 1);
-                            j--;
-                        }
-
-                        // Remove direct friends
-                        for(var k=0; k<vmDetails.user.friends.length; k++){
-                            if(vmDetails.friendsOfFriends[j].id === vmDetails.user.friends[k]){
-                                vmDetails.friendsOfFriends.splice(j, 1);
-                            }
-                        }
-
-                    }
+                    vmDetails.friendsOfFriends = data;
                 });
         }
         function getSuggestedFriends() {
             if(vmDetails.user.friends.length>1){
                 userService.getSuggestedFriends(vmDetails.user.friends).$promise
                     .then(function(data){
-                        vmDetails.suggestedFriends = angular.copy(data);
+                        vmDetails.suggestedFriends = data;
 
                         // Remove selected user
-                        for(var j = 0; j < vmDetails.suggestedFriends.length; j++){
+                        for(var j = 0; j < vmDetails.suggestedFriends.length; j++)
                             if(vmDetails.suggestedFriends[j].id === vmDetails.user.id){
                                 vmDetails.suggestedFriends.splice(j, 1);
-                                j--;
+                                return;
                             }
-                        }
 
                     });
             } else {

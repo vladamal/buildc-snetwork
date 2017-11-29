@@ -26,28 +26,29 @@ module.exports = {
     getUsers            : getUsers,
 
     getUser             : getUser,
-    getFriendsByIds     : getFriendsByIds,
+    getFriendsOfFriends : getFriendsOfFriends,
     getSuggestedFriends : getSuggestedFriends
 };
 
 function insertUsers(users, callback){
     User.collection.insert(users, callback);
 }
-
 function getUsers(){
     return User.find({}).exec();
 }
-
 function getUser(id){
     return User.findOne({id:id})
         .populate({path: 'populatedFriends', select: 'firstName surname friends age'})
         .exec();
 }
-
-function getFriendsByIds(ids){
-    return User.find({id: { "$in": ids}}).exec();
+function getFriendsOfFriends(ids, notIn){
+    return User.find({
+            $and: [
+                {id: {"$in": ids}},
+                {id: {"$nin": notIn}}
+            ]
+        }).exec();
 }
-
 function getSuggestedFriends(ids){
     return User.aggregate([
         { "$match": { "friends.1": { "$exists": true } } },

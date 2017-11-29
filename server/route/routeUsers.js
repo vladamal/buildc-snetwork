@@ -10,7 +10,7 @@ router.post('/',    postUsers);
 router.get('/',     getUsers);
 
 router.get('/:id',              getUser);
-router.get('/fof/:friends',     getFriendsOfFriends);
+router.get('/fof/:ids',         getFriendsOfFriends);
 router.get('/suggestions/:ids', getSuggestedFriends);
 
 function postUsers(req, res) {
@@ -41,8 +41,11 @@ function getUser(req, res) {
         })
 }
 function getFriendsOfFriends(req, res) {
-    var fofIds = req.params.friends.split(',');
-    userProvider.getFriendsByIds(fofIds)
+    var params = req.params.ids.split('|'),
+        ids = params[0].split(','),
+        notIn = params[1].split(',');
+
+    userProvider.getFriendsOfFriends(ids, notIn)
         .then(function(docs){
             res.json(docs);
         })
@@ -53,7 +56,6 @@ function getFriendsOfFriends(req, res) {
 function getSuggestedFriends(req, res) {
 
     var relatedFriends = req.params.ids.split(',');
-
     for(var i=0; i<relatedFriends.length; i++)
         relatedFriends[i] = +relatedFriends[i];
 
